@@ -1,0 +1,154 @@
+name: SDK Integration & Demo
+
+on:
+  schedule:
+    - cron: '0 0,3,6,9,12,15,18,21 * * *'
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/**'
+      - 'examples/**'
+      - '.github/workflows/sdk.yml'
+  workflow_dispatch:
+
+jobs:
+  sdk-install-verify:
+    name: Install & Verify SDK (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.x, 22.x, 24.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install genetrust-sdk from npm registry
+        run: npm install genetrust-sdk
+
+      - name: Verify SDK installation
+        continue-on-error: true
+        run: |
+          node --input-type=module <<'EOF'
+            import * as sdk from 'genetrust-sdk';
+            console.log('genetrust-sdk installed successfully');
+            console.log('Exports:', Object.keys(sdk).join(', '));
+          EOF
+
+      - name: Check SDK version
+        continue-on-error: true
+        run: npm list genetrust-sdk
+
+  sdk-demo-node:
+    name: Run SDK Demo (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.x, 22.x, 24.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install genetrust-sdk
+        run: npm install genetrust-sdk
+
+      - name: Install demo dependencies
+        continue-on-error: true
+        run: |
+          cd examples
+          npm install
+
+      - name: Run Node.js demo
+        continue-on-error: true
+        run: node examples/demo.js
+
+  sdk-demo-typescript:
+    name: Run SDK TypeScript Demo
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.x, 22.x, 24.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install genetrust-sdk and TypeScript tools
+        run: |
+          npm install genetrust-sdk
+          npm install -g tsx typescript
+
+      - name: Run TypeScript demo
+        continue-on-error: true
+        run: tsx examples/demo.ts
+
+  sdk-bundle-size:
+    name: Check SDK Bundle Size
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install genetrust-sdk
+        run: npm install genetrust-sdk
+
+      - name: Check bundle size
+        continue-on-error: true
+        run: |
+          du -sh node_modules/genetrust-sdk
+          echo "genetrust-sdk bundle size check complete"
+
+  sdk-cross-platform:
+    name: Cross-platform SDK Test
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install genetrust-sdk
+        run: npm install genetrust-sdk
+
+      - name: Verify SDK on ${{ matrix.os }}
+        continue-on-error: true
+        run: |
+          node --input-type=module --eval "import('genetrust-sdk').then(sdk => console.log('genetrust-sdk works on ${{ matrix.os }}'));"

@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # every hour
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install published package (generates npm download)
+        run: npm install genetrust-sdk --no-save
+
+      - name: Run exports test
+        run: npm run test:exports
+
+      - name: Run config test
+        run: npm run test:config
+
+      - name: Run crypto test
+        run: npm run test:crypto
+
+      - name: Run zk-proofs test
+        run: npm run test:zk
+
+      - name: Run formatter test
+        run: npm run test:formatter
+
+      - name: Run contracts test
+        run: npm run test:contracts
+
+      - name: Run performance test
+        run: npm run test:performance

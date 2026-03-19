@@ -51,6 +51,16 @@
     "url": "https://github.com/DeborahOlaboye/genetrust-sdk/issues"
   },
   "homepage": "https://github.com/DeborahOlaboye/genetrust-sdk#readme",
+  "scripts": {
+    "test": "node --experimental-vm-modules tests/exports.test.js && node --experimental-vm-modules tests/config.test.js && node --experimental-vm-modules tests/crypto.test.js && node --experimental-vm-modules tests/zk-proofs.test.js && node --experimental-vm-modules tests/formatter.test.js && node --experimental-vm-modules tests/contracts.test.js && node --experimental-vm-modules tests/performance.test.js",
+    "test:exports": "node --experimental-vm-modules tests/exports.test.js",
+    "test:config": "node --experimental-vm-modules tests/config.test.js",
+    "test:crypto": "node --experimental-vm-modules tests/crypto.test.js",
+    "test:zk": "node --experimental-vm-modules tests/zk-proofs.test.js",
+    "test:formatter": "node --experimental-vm-modules tests/formatter.test.js",
+    "test:contracts": "node --experimental-vm-modules tests/contracts.test.js",
+    "test:performance": "node --experimental-vm-modules tests/performance.test.js"
+  },
   "engines": {
     "node": ">=18.0.0"
   },

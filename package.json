@@ -27,6 +27,7 @@
       "import": "./src/config/phase2-config.js"
     }
   },
+  "types": "./src/types.ts",
   "keywords": [
     "blockchain",
     "stacks",
@@ -39,7 +40,8 @@
     "privacy",
     "marketplace",
     "decentralized",
-    "web3"
+    "web3",
+    "typescript"
   ],
   "author": "Deborah Olaboye <deborah@genetrust.org>",
   "license": "MIT",
@@ -51,6 +53,10 @@
     "url": "https://github.com/DeborahOlaboye/genetrust-sdk/issues"
   },
   "homepage": "https://github.com/DeborahOlaboye/genetrust-sdk#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
   "scripts": {
     "test": "node --experimental-vm-modules tests/exports.test.js && node --experimental-vm-modules tests/config.test.js && node --experimental-vm-modules tests/crypto.test.js && node --experimental-vm-modules tests/zk-proofs.test.js && node --experimental-vm-modules tests/formatter.test.js && node --experimental-vm-modules tests/contracts.test.js && node --experimental-vm-modules tests/performance.test.js",
     "test:exports": "node --experimental-vm-modules tests/exports.test.js",
@@ -59,7 +65,8 @@
     "test:zk": "node --experimental-vm-modules tests/zk-proofs.test.js",
     "test:formatter": "node --experimental-vm-modules tests/formatter.test.js",
     "test:contracts": "node --experimental-vm-modules tests/contracts.test.js",
-    "test:performance": "node --experimental-vm-modules tests/performance.test.js"
+    "test:performance": "node --experimental-vm-modules tests/performance.test.js",
+    "build:types": "tsc --emitDeclarationOnly"
   },
   "engines": {
     "node": ">=18.0.0"

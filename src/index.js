@@ -625,4 +625,4 @@ export { PerformanceConfig } from './config/performance-config.js';
 export { ZKProofFactory, GenePresenceProofGenerator, GeneVariantProofGenerator, AggregateProofGenerator, ProofVerifier, ProofUtils } from './zk-proofs/index.js';
 export { StorageFactory, StorageManager, EncryptionManager, IPFSClient } from './storage/index.js';
 export { ContractFactory, GeneticDataClient, MarketplaceClient, VerificationClient, ComplianceClient } from './contracts/index.js';
-export { CryptoUtils, DataFormatter, PerformanceProfiler, profiler } from './utils/index.js';
+export { CryptoUtils, DataFormatter, PerformanceProfiler, profiler, sanitize } from './utils/index.js';

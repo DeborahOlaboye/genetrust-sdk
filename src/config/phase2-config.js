@@ -257,10 +257,17 @@ export class Phase2Config {
     }
 
     static fromEnvironment() {
-        const environment = process.env.NODE_ENV || 'development';
+        const VALID_ENVIRONMENTS = ['development', 'testing', 'staging', 'production'];
+        const raw = process.env.NODE_ENV || 'development';
+        const environment = VALID_ENVIRONMENTS.includes(raw) ? raw : 'development';
         const config = new Phase2Config(environment);
         if (process.env.IPFS_HOST) config.updateConfig('ipfs', { host: process.env.IPFS_HOST });
-        if (process.env.IPFS_PORT) config.updateConfig('ipfs', { port: parseInt(process.env.IPFS_PORT) });
+        if (process.env.IPFS_PORT) {
+            const port = parseInt(process.env.IPFS_PORT, 10);
+            if (!isNaN(port) && port > 0 && port <= 65535) {
+                config.updateConfig('ipfs', { port });
+            }
+        }
         return config;
     }
 }

@@ -472,6 +472,14 @@ export class GeneTrust {
 
     // Private helpers
 
+    /**
+     * Returns true if the SDK has been successfully initialized.
+     * @returns {boolean}
+     */
+    isInitialized() {
+        return this.initialized === true;
+    }
+
     _ensureInitialized() {
         if (!this.initialized) {
             throw new Error('SDK not initialized. Call initialize() first.');

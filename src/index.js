@@ -1,6 +1,8 @@
 // Main GeneTrust SDK entry point
 // Provides high-level interface for all GeneTrust functionality
 
+export const VERSION = '1.0.0';
+
 import { Phase2Config } from './config/phase2-config.js';
 import { PerformanceConfig } from './config/performance-config.js';
 import { ZKProofFactory } from './zk-proofs/index.js';
@@ -595,6 +597,14 @@ export class GeneTrust {
         } catch (error) {
             return { error: error.message };
         }
+    }
+
+    /**
+     * Get the SDK version string.
+     * @returns {string}
+     */
+    getVersion() {
+        return VERSION;
     }
 
     /**

@@ -1,6 +1,10 @@
 const sensitiveFields = [
   'password', 'token', 'apiKey', 'api_key', 'secret',
   'privateKey', 'private_key', 'accessToken', 'refreshToken', 'authorization',
+  'mnemonic', 'seed', 'seedPhrase', 'seed_phrase', 'passphrase',
+  'encryptionKey', 'encryption_key', 'decryptionKey', 'decryption_key',
+  'witnessProgram', 'witness_program', 'btcTxid', 'btc_txid',
+  'ssn', 'dob', 'dateOfBirth', 'date_of_birth', 'geneticData', 'genetic_data',
 ];
 
 export const sanitize = (obj) => {

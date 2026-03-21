@@ -1,0 +1,13 @@
+{
+  "name": "genetrust-sdk-examples",
+  "version": "1.0.0",
+  "description": "Examples and demos for the GeneTrust SDK",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "install-sdk": "npm install"
+  },
+  "dependencies": {
+    "genetrust-sdk": "^1.0.0"
+  }
+}

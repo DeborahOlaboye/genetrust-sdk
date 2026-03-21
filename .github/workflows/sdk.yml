@@ -30,21 +30,25 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install genetrust-sdk from npm registry
-        run: npm install genetrust-sdk
+      - name: Install genetrust-sdk
+        run: |
+          cd examples
+          npm install
 
       - name: Verify SDK installation
         continue-on-error: true
         run: |
           node --input-type=module <<'EOF'
-            import * as sdk from 'genetrust-sdk';
+            import * as sdk from './examples/node_modules/genetrust-sdk/src/index.js';
             console.log('genetrust-sdk installed successfully');
             console.log('Exports:', Object.keys(sdk).join(', '));
           EOF
 
       - name: Check SDK version
         continue-on-error: true
-        run: npm list genetrust-sdk
+        run: |
+          cd examples
+          npm list genetrust-sdk
 
   sdk-demo-node:
     name: Run SDK Demo (Node ${{ matrix.node-version }})
@@ -65,10 +69,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install genetrust-sdk
-        run: npm install genetrust-sdk
-
-      - name: Install demo dependencies
-        continue-on-error: true
         run: |
           cd examples
           npm install
@@ -97,7 +97,8 @@ jobs:
 
       - name: Install genetrust-sdk and TypeScript tools
         run: |
-          npm install genetrust-sdk
+          cd examples
+          npm install
           npm install -g tsx typescript
 
       - name: Run TypeScript demo
@@ -118,12 +119,14 @@ jobs:
           node-version: '20.x'
 
       - name: Install genetrust-sdk
-        run: npm install genetrust-sdk
+        run: |
+          cd examples
+          npm install
 
       - name: Check bundle size
         continue-on-error: true
         run: |
-          du -sh node_modules/genetrust-sdk
+          du -sh examples/node_modules/genetrust-sdk
           echo "genetrust-sdk bundle size check complete"
 
   sdk-cross-platform:
@@ -146,9 +149,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install genetrust-sdk
-        run: npm install genetrust-sdk
+        run: |
+          cd examples
+          npm install
 
       - name: Verify SDK on ${{ matrix.os }}
         continue-on-error: true
         run: |
-          node --input-type=module --eval "import('genetrust-sdk').then(sdk => console.log('genetrust-sdk works on ${{ matrix.os }}'));"
+          node --input-type=module --eval "import('./examples/node_modules/genetrust-sdk/src/index.js').then(sdk => console.log('genetrust-sdk works on ${{ matrix.os }}'));"

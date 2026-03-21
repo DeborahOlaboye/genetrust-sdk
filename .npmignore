@@ -1,0 +1,12 @@
+# Dev tooling
+.github/
+tests/
+examples/
+*.test.js
+*.spec.js
+
+# Misc
+.DS_Store
+*.log
+logs/
+node_modules/

@@ -1,0 +1,4 @@
+# Tell GitHub Linguist that this is a TypeScript project.
+# JS source files are JS-with-JSDoc typed via types.ts declarations.
+src/*.js linguist-language=TypeScript
+src/**/*.js linguist-language=TypeScript

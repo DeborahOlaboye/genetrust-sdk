@@ -8,6 +8,7 @@ import { StorageFactory } from './storage/index.js';
 import { ContractFactory } from './contracts/index.js';
 import { UtilityFactory } from './utils/index.js';
 import { profiler } from './utils/performance-profiler.js';
+import logger from './utils/logger.js';
 
 /**
  * Main GeneTrust SDK Class
@@ -94,7 +95,7 @@ export class GeneTrust {
             // Test storage connectivity
             const connectivityTest = await this.storage.storage.testConnectivity();
             if (!connectivityTest.overall) {
-                console.warn('Storage connectivity issues detected:', connectivityTest.error);
+                logger.warn('Storage connectivity issues detected', { error: connectivityTest.error });
             }
 
             this.initialized = true;
@@ -463,7 +464,7 @@ export class GeneTrust {
                 await this.storage.storage.close();
             }
         } catch (error) {
-            console.warn('Error during SDK cleanup:', error.message);
+            logger.warn('Error during SDK cleanup', { error: error.message });
         }
     }
 
@@ -482,7 +483,7 @@ export class GeneTrust {
         this.performanceInterval = setInterval(() => {
             const report = profiler.generateReport();
             if (report.profiles && report.profiles.length > 0) {
-                console.log('GeneTrust Performance Report:', {
+                logger.info('GeneTrust Performance Report', {
                     operations: report.summary.totalProfiles,
                     avgDuration: Math.round(report.summary.avgDuration),
                     slowestOp: report.slowestOperations[0]?.name
@@ -558,7 +559,7 @@ export class GeneTrust {
 
             return { data: dataResult, proofs: proofResults };
         } catch (error) {
-            console.warn('Blockchain registration failed:', error.message);
+            logger.warn('Blockchain registration failed', { error: error.message });
             return { error: error.message };
         }
     }
@@ -575,7 +576,7 @@ export class GeneTrust {
                 consentDuration: options.consentDuration || 8640
             }, ownerAddress);
         } catch (error) {
-            console.warn('Compliance setup failed:', error.message);
+            logger.warn('Compliance setup failed', { error: error.message });
             return { error: error.message };
         }
     }
